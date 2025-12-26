@@ -1,0 +1,9 @@
+# config/app_config.yaml
+
+# 日志级别 (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+logging_level: DEBUG
+
+# 其他应用配置可以加在这里
+# 例如:
+# upload_dir: data/uploads
+# cache_dir: data/cache 

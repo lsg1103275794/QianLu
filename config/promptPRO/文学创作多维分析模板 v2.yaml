@@ -1,0 +1,214 @@
+# 文学创作多维分析模板 v2.0
+metadata:
+  template_name: 精细化文学特征分析
+  analysis_levels: [基础检测, 深度解析, 创作建议]  # 新增分析深度控制
+
+categories:
+  - id: rhetorical_devices
+    name: 修辞维度
+    subcategories:
+      - id: metaphor
+        name: 比喻系统
+        parameters:
+          - id: metaphor_type
+            name: 类型检测
+            instruction: |
+              识别具体比喻类型：
+              - 明喻（带「像、似」等喻词）
+              - 暗喻（使用「是、成为」连接）
+              - 借喻（省略本体）
+              - 拟人（赋予非人事物人的特征）
+              - 夸张（有意夸大或缩小）
+              要求：标注本体/喻体/相似点
+            examples:
+              positive: "人生如逆旅，我亦是行人（明喻：本体「人生」，喻体「逆旅」，相似点「短暂性」）"
+              negative: "月光洒在湖面上（无明确比喻）"
+            threshold: 0.8  # 置信度阈值
+
+      - id: parallelism
+        name: 排比系统
+        parameters:
+          - id: parallel_structure
+            name: 结构分析
+            instruction: 分析排比句的以下特征：
+              1. 句式重复模式（字数/平仄/押韵）
+              2. 逻辑递进方向（时间/空间/程度）
+              3. 情感增强效果（情感值变化曲线）
+            output_requirements:
+              - 结构图绘制
+              - 情感强度评分（1-10分）
+
+      - id: irony
+        name: 反讽系统
+        parameters:
+          - id: verbal_irony
+            name: 言语反讽
+            instruction: 识别并分析文本中表意与字面意相反或不符的言语，并解释其讽刺效果。
+          - id: situational_irony
+            name: 情景反讽
+            instruction: 分析是否存在预期结果与实际发生情况之间的反差，并解释这种反差带来的戏剧性或讽刺意味。
+          - id: dramatic_irony
+            name: 戏剧反讽
+            instruction: 分析是否存在读者/观众知道而角色不知道的信息差，并解释这种信息差如何制造悬念、讽刺或悲剧效果。
+
+  - id: narrative_techniques
+    name: 叙事维度
+    subcategories:
+      - id: perspective_switch
+        name: 视角转换
+        parameters:
+          - id: switch_points
+            name: 转换节点
+            instruction: 检测视角转换的：
+              1. 显性标记（人称代词变化）
+              2. 隐性标记（心理描写转移）
+              3. 过渡自然度评分（1-5分）
+          - id: narrative_voice
+            name: 叙事声调
+            instruction: 分析叙述者口吻：
+              - 全知型（上帝视角）
+              - 限制型（单一角色认知）
+              - 客观型（摄像机模式）
+          - id: narrator_reliability
+            name: 叙述者可靠性
+            instruction: 评估叙述者讲述的可信度。是否存在证据表明叙述者可能带有偏见、信息不全、有意误导或精神不稳定？分析其可靠性对读者理解故事的影响。
+
+  - id: stylistic_features
+    name: 风格维度
+    subcategories:
+      - id: digital_style
+        name: 网感特征
+        parameters:
+          - id: meme_usage
+            name: 梗文化应用
+            instruction: 识别以下网络文化特征：
+              - 热梗引用（需标注出处）
+              - 表情包式表达（[笑哭]、[狗头]）
+              - 弹幕体语言（「前方高能」等）
+              - 二创度评分（原创性1-10分）
+
+  - id: emotional_expression
+    name: 情感维度
+    subcategories:
+      - id: emotional_layers
+        name: 情感层次
+        parameters:
+          - id: primary_emotion
+            name: 表层情感
+            instruction: 识别文本中直接表达的情感
+          - id: subtext_emotion
+            name: 潜层情感
+            instruction: 分析文本隐含的情感倾向
+          - id: emotional_arc
+            name: 情感曲线
+            instruction: 追踪情感变化轨迹
+
+  - id: language_style
+    name: 语言维度
+    subcategories:
+      - id: vocabulary_choice
+        name: 词汇选择
+        parameters:
+          - id: word_level
+            name: 词汇等级
+            instruction: 分析词汇的：
+              - 书面语/口语比例
+              - 专业术语使用
+              - 方言/俚语使用
+          - id: word_density
+            name: 词汇密度
+            instruction: 计算：
+              - 实词比例
+              - 虚词比例
+              - 重复词频率
+      - id: sound_devices
+        name: 声音效果
+        parameters:
+          - id: alliteration_assonance_consonance
+            name: 头韵/元音韵/辅音韵
+            instruction: 识别并分析文本中是否存在刻意使用的头韵（首字母相同）、元音韵（元音相同）或辅音韵（辅音相同），并说明其对节奏或语感的影响。
+          - id: onomatopoeia
+            name: 拟声
+            instruction: 找出文本中的拟声词，并分析其如何模拟声音以及营造的氛围。
+
+  - id: structural_analysis
+    name: 结构维度
+    subcategories:
+      - id: paragraph_structure
+        name: 段落结构
+        parameters:
+          - id: paragraph_length
+            name: 段落长度
+            instruction: 分析段落：
+              - 平均句数
+              - 长短句搭配
+              - 段落间过渡
+          - id: logical_flow
+            name: 逻辑流动
+            instruction: 评估：
+              - 论证严密性
+              - 推理合理性
+              - 结论相关性
+
+  - id: cultural_elements
+    name: 文化维度
+    subcategories:
+      - id: cultural_references
+        name: 文化引用
+        parameters:
+          - id: classical_allusions
+            name: 典故引用
+            instruction: 识别：
+              - 历史典故
+              - 文学典故
+              - 神话传说
+          - id: contemporary_culture
+            name: 当代文化
+            instruction: 分析：
+              - 流行文化元素
+              - 社会热点引用
+              - 亚文化特征
+          - id: intertextuality
+            name: 互文性分析
+            instruction: 分析文本与其他已知文本（文学作品、电影、历史事件等）之间是否存在明确或隐含的引用、模仿、戏仿或对话关系，并解释这种互文性如何影响文本意义。
+
+# 增强版输出规范
+output_specification:
+  structure: # 保留结构描述，供参考，但主要通过 format 指令约束
+    - category: 维度名称
+      technique: 具体技法
+      score: 强度评分
+      coordinates:  # 新增文本坐标
+        - start_line: 起始行号
+          start_char: 起始字符
+          end_char: 结束字符
+      analysis: 技术解析
+      improvement: 优化建议  # 新增修改建议
+  required_scores:
+    - 情感强度值
+    - 技法复杂度
+    - 创新性评分
+  format: 
+    - "直接输出分析结果，使用 Markdown 格式。"
+    - "严格按照请求的维度进行分析，并仅输出这些维度的内容。"
+    - "使用请求分析的维度名称（例如 '比喻系统', '视角转换' 等）作为二级或三级标题 (## 或 ###)。"
+    - "不要包含任何引言、问候语（如'好的'、'当然'）、通用章节标题（如'总结'、'思考'）、结尾语（如'希望对您有帮助'）或任何与请求维度无关的内容。"
+    - "直接从第一个请求的维度分析开始输出。"
+    # - 可视化图谱草案 (可选，如果需要)
+
+# 完整示例
+examples:
+  - input: "那山不再是山，已化作横卧的巨人，夜的呼吸在它脊背上起伏。"
+    output:
+      - category: 修辞维度
+        technique: 暗喻系统
+        score: 9.2
+        coordinates: 
+          - start_line: 1
+            start_char: 5
+            end_char: 16
+        analysis: |
+          1. 本体「山」通过动词「化作」转换为喻体「巨人」  
+          2. 双重隐喻：将「夜」暗喻为生命体  
+          3. 触觉通感：「呼吸」连接视觉与触觉
+        improvement: 可增加本体喻体相似点的明示 

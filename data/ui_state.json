@@ -1,0 +1,45 @@
+{
+  "text-analysis": {
+    "analysisType": "deep",
+    "provider": "silicon_flow",
+    "model": {
+      "id": "stabilityai/stable-diffusion-xl-base-1.0",
+      "name": "stabilityai/stable-diffusion-xl-base-1.0",
+      "provider": "silicon_flow"
+    },
+    "process_large_text": true,
+    "selected_template_id": "comprehensive_literary_review"
+  },
+  "writing-style-analysis": {
+    "provider": "ollama_local",
+    "model": "qwen3:8b",
+    "selectedDimensions": [
+      "stylistic_features.digital_style.meme_usage"
+    ],
+    "text": ""
+  },
+  "model-test-view": {
+    "selectedProvider": "ollama_local",
+    "selectedModel": "deepseek-r1:8b"
+  },
+  "api-manager": {
+    "selectedSection": "silicon_flow",
+    "formValues": {
+      "provider_name": "silicon_flow",
+      "SILICONFLOW_API_KEY": "sk-t...ancp",
+      "SILICONFLOW_ENDPOINT": "https://api.siliconflow.cn/v1",
+      "SILICONFLOW_DEFAULT_MODEL": "THUDM/GLM-Z1-9B-0414",
+      "SILICONFLOW_TEMPERATURE": "1",
+      "SILICONFLOW_MAX_TOKENS": "4096",
+      "SILICONFLOW_TOP_P": "0.85"
+    },
+    "defaultTemperature": null,
+    "defaultMaxTokens": null
+  },
+  "style-transfer": {
+    "provider": "ollama_local",
+    "model": "",
+    "input_type": "analysis",
+    "selected_analysis": "bdea26088eb8a5f4d6057acdc637c8d3764a93d8eaac3681fd997fc5d41a92d7"
+  }
+}

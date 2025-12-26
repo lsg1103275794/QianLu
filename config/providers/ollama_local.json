@@ -1,0 +1,62 @@
+{
+  "standard_name": "ollama_local",
+  "display_name": "Ollama Local",
+  "api_parameters": {
+    "runtime": [
+      {
+        "name": "temperature",
+        "env_var": "OLLAMA_TEMPERATURE",
+        "type": "float",
+        "default": 0.85,
+        "min_value": 0.0,
+        "max_value": 2.0,
+        "description": "控制生成文本的随机性"
+      },
+      {
+        "name": "max_tokens",
+        "env_var": "OLLAMA_MAX_TOKENS",
+        "type": "int",
+        "default": 100000,
+        "min_value": 1,
+        "description": "限制生成的最大token数量 (对应 Ollama 的 num_predict 参数) - 设置为非常大的值以近似无限制"
+      },
+      {
+        "name": "top_p",
+        "env_var": "OLLAMA_TOP_P",
+        "type": "float",
+        "default": 0.9,
+        "min_value": 0.0,
+        "max_value": 1.0,
+        "description": "控制生成文本的多样性"
+      }
+    ],
+    "default": []
+  },
+  "credentials": [],
+  "endpoint_config": {
+    "name": "api_base_url",
+    "env_var": "OLLAMA_API_BASE_URL",
+    "type": "text",
+    "default": "http://localhost:11434",
+    "required": true,
+    "description": "Ollama API 端点 URL"
+  },
+  "model_config": {
+    "name": "default_model",
+    "env_var": "OLLAMA_DEFAULT_MODEL",
+    "type": "text",
+    "default": "gemma3:12b",
+    "required": false,
+    "description": "默认使用的 Ollama 模型名称"
+  },
+  "other_settings": [
+    {
+      "name": "request_timeout",
+      "env_var": "OLLAMA_REQUEST_TIMEOUT",
+      "type": "int",
+      "default": 30000,
+      "min_value": 1,
+      "description": "API 请求超时时间 (单位需在 handler 中确认, 可能是毫秒)"
+    }
+  ]
+} 

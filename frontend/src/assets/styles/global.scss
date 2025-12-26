@@ -1,0 +1,1023 @@
+/* frontend/src/assets/styles/global.scss */
+
+/* 定义全局主题变量 */
+:root {
+  /* 亮色模式变量 - 更新为渐变背景 */
+  --light-bg-primary: #f8f6f0; /* 保留浅色作为备用 */
+  --light-bg-gradient: linear-gradient(135deg,#ffeeee,#ddefbb); /* 添加渐变变量 */
+  --light-bg-secondary: #eae6d9; /* 稍深的米色 */
+  --light-bg-tertiary: #e0daca; /* 羊皮纸色 */
+  --light-card-bg: #fffbf0; /* 卡片背景 */
+  --light-border-color: #d7cdb8; /* 边框颜色 */
+  --light-code-bg: #f8f4e8; /* 代码区背景 */
+  --light-code-border: #e6dcc6; /* 代码区边框 */
+  --light-text-primary: #453e32; /* 主要文本 */
+  --light-text-secondary: #665e4f; /* 次要文本 */
+  --light-accent-primary: #8a6d3b; /* 强调色 */
+  --light-accent-secondary: #baa888; /* 次要强调色 */
+  --light-shadow: rgba(160, 140, 100, 0.1); /* 阴影颜色 */
+  
+  /* 深色模式变量 - 更新为纯黑背景 */
+  --dark-bg-primary: #000000; /* 纯黑背景 */
+  --dark-bg-secondary: #0a0a0a; /* 稍亮一点的黑色 */
+  --dark-bg-tertiary: #111111; /* 三级背景色 */
+  --dark-card-bg: #0f0f0f; /* 卡片背景 */
+  --dark-border-color: #222222; /* 边框颜色 */
+  --dark-code-bg: #0a0a0a; /* 代码区背景 */
+  --dark-text-primary: #e8e8e8; /* 主要文本 */
+  --dark-text-secondary: #b0b0b0; /* 次要文本 */
+  --dark-accent-primary: #42b983; /* 强调色 */
+  --dark-accent-secondary: #4f7eff; /* 次要强调色 */
+  
+  /* 新增: 步骤指示器相关变量 */
+  --light-step-bg: rgba(255, 255, 255, 0.8);
+  --light-step-border: transparent;
+  --light-step-counter: #333;
+  --light-step-percentage: #409EFF;
+  --light-step-progress-bg: #e9ecef;
+  --light-step-progress-fill: linear-gradient(90deg, #409EFF, #42b983);
+  --light-step-text: #606266;
+  
+  --dark-step-bg: rgba(30, 30, 30, 0.8);
+  --dark-step-border: #3e3e3e;
+  --dark-step-counter: #e0e0e0;
+  --dark-step-percentage: #4c9aff;
+  --dark-step-progress-bg: #333;
+  --dark-step-progress-fill: linear-gradient(90deg, #4c9aff, #3eaf7c);
+  --dark-step-text: #c0c0c0;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Microsoft YaHei UI', 'Microsoft YaHei', 'PingFang SC', '微软雅黑', sans-serif;
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  background: var(--light-bg-gradient); /* 默认使用亮色渐变 */
+  color: var(--light-text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#app {
+  height: 100%;
+}
+
+/* 修改Element Plus卡片组件样式，添加毛玻璃效果和悬浮感 */
+.el-card {
+  background-color: rgba(255, 255, 255, 0.7) !important; /* 半透明背景 */
+  backdrop-filter: blur(10px) !important; /* 毛玻璃效果 */
+  border-color: rgba(255, 255, 255, 0.2) !important; /* 半透明边框 */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04) !important; /* 立体阴影 */
+  border-radius: 12px !important; /* 更圆润的边角 */
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+  color: var(--light-text-primary);
+  overflow: hidden; /* 确保内容不溢出圆角 */
+
+  &:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07) !important;
+    
+    .el-card__header {
+      background-position: right bottom !important;
+    }
+  }
+  
+  .el-card__header {
+    background-color: rgba(234, 230, 217, 0.8) !important; /* 半透明背景 */
+    backdrop-filter: blur(5px) !important; /* 毛玻璃效果 */
+    border-color: rgba(215, 205, 184, 0.3) !important; /* 半透明边框 */
+    font-weight: 600;
+    color: var(--light-text-primary);
+    background-image: linear-gradient(to right, transparent 50%, rgba(255, 255, 255, 0.05) 50%);
+    background-size: 200% 100%;
+    background-position: left bottom;
+    transition: all 0.5s ease !important;
+    letter-spacing: 0.3px;
+  }
+  
+  .el-card__body {
+    transition: all 0.3s ease;
+  }
+}
+
+/* 按钮悬浮效果 */
+.el-button {
+  transition: all 0.3s ease !important;
+  position: relative;
+  overflow: hidden;
+  
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  &:active {
+    transform: scale(0.95) translateY(1px);
+    transition: transform 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+}
+
+/* 全局上传按钮样式优化 */
+.upload-button {
+  background-color: #42b983 !important;
+  border-color: #42b983 !important;
+  color: white !important;
+  border-radius: 4px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  height: 36px;
+  transition: all 0.3s ease;
+  
+  &:hover, &:focus {
+    background-color: #53d6a4 !important;
+    border-color: #53d6a4 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(66, 185, 131, 0.3);
+  }
+  
+  .el-icon {
+    margin-right: 6px;
+    font-size: 16px;
+  }
+}
+
+/* 输入框毛玻璃效果 */
+.el-input__inner, .el-textarea__inner {
+  background-color: rgba(255, 255, 250, 0.7) !important; /* 半透明背景 */
+  backdrop-filter: blur(5px) !important; /* 毛玻璃效果 */
+  border: 1px solid rgba(215, 205, 184, 0.5) !important; /* 半透明边框 */
+  transition: all 0.3s ease !important;
+  
+  &:focus {
+    box-shadow: 0 0 0 2px rgba(138, 109, 59, 0.2) !important; /* 聚焦时光晕效果 */
+    border-color: var(--light-accent-primary) !important;
+  }
+}
+
+.el-button--primary {
+  background-color: var(--light-accent-primary) !important;
+  border-color: var(--light-accent-primary) !important;
+  
+  &:hover, &:focus {
+    background-color: #7a5d2b !important;
+    border-color: #7a5d2b !important;
+  }
+}
+
+.el-button--danger {
+  &:hover, &:focus {
+    background-color: #c53943 !important;
+    border-color: #c53943 !important;
+  }
+}
+
+/* 新增: 表单操作按钮区域样式 */
+.form-action-buttons {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px dashed #ebeef5;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* 新增: 步骤指示器全局样式 */
+.step-indicator {
+  width: 100%;
+  margin-top: 15px;
+  background-color: var(--light-step-bg);
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(5px);
+  border: 1px solid var(--light-step-border);
+}
+
+.step-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.step-counter {
+  font-weight: 600;
+  color: var(--light-step-counter);
+}
+
+.step-percentage {
+  color: var(--light-step-percentage);
+  font-weight: 600;
+}
+
+.step-progress-container {
+  height: 8px;
+  background-color: var(--light-step-progress-bg);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.step-progress {
+  height: 100%;
+  background: var(--light-step-progress-fill);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.step-description {
+  font-size: 14px;
+  color: var(--light-step-text);
+  margin-top: 8px;
+  padding-left: 2px;
+  font-weight: 500;
+}
+
+/* 新增: 分析结果区样式 */
+.analysis-loading {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+/* 新增: 文件上传和选择区域公共样式 */
+.gm-input-methods {
+  width: 100%;
+  
+  .el-tabs__nav {
+    border-radius: 4px 4px 0 0;
+  }
+}
+
+/* 统一容器宽度约束 */
+.text-analysis,
+.writing-style-analysis,
+.style-transfer {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* 统一表单内容宽度 */
+.el-form {
+  width: 100%;
+}
+
+/* 统一文本框样式 - 增强版 */
+.gm-textarea {
+  width: 100% !important; /* 确保文本框占满可用宽度 */
+  max-width: none !important; /* 防止被其他样式限制 */
+  margin: 0 !important; /* 移除可能的外边距差异 */
+  display: block !important; /* 确保是块级元素 */
+  box-sizing: border-box !important; /* 确保padding计入宽度 */
+  
+  .el-textarea__inner {
+    background-color: rgba(255, 255, 250, 0.7) !important;
+    backdrop-filter: blur(5px) !important;
+    border: 1px solid rgba(215, 205, 184, 0.5) !important;
+    border-radius: 4px;
+    padding: 12px 15px !important; /* 统一内边距 */
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 120px;
+    transition: all 0.3s ease;
+    width: 100% !important; /* 确保内部元素也是100%宽度 */
+    box-sizing: border-box !important; /* 确保padding计入宽度 */
+    
+    &:focus {
+      box-shadow: 0 0 0 2px rgba(66, 185, 131, 0.2) !important;
+      border-color: #42b983 !important;
+    }
+  }
+  
+  &.has-content .el-textarea__inner {
+    border-color: #42b983 !important;
+    border-width: 1px !important;
+  }
+}
+
+/* 统一表单布局样式 */
+.el-form-item {
+  margin-bottom: 18px !important;
+  
+  .el-form-item__content {
+    width: calc(100% - var(--el-form-label-width)) !important;
+    display: block !important;
+  }
+}
+
+/* 统一卡片内部内容区域样式 */
+.feature-card .el-card__body,
+.analysis-card .el-card__body {
+  padding: 20px !important;
+}
+
+/* 统一的上传容器样式 */
+.gm-upload-container {
+  margin-top: 12px;
+  margin-bottom: 12px;
+  padding: 15px;
+  border: 1px dashed #dcdfe6;
+  border-radius: 4px;
+  background-color: rgba(245, 247, 250, 0.8);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    border-color: #42b983;
+    background-color: rgba(245, 247, 250, 0.9);
+  }
+}
+
+/* 文件信息显示区域统一样式 */
+.gm-uploaded-file-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  background-color: rgba(240, 249, 235, 0.8);
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid #e1f3d8;
+  
+  .el-tag {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border-color: transparent;
+    color: #67c23a;
+    
+    .el-icon {
+      margin-right: 6px;
+      font-size: 16px;
+    }
+    
+    span {
+      font-size: 14px;
+    }
+  }
+}
+
+/* 新增: 文件上传后内容展示 */
+.gm-uploaded-file-content {
+  width: 100%;
+  
+  .gm-file-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    background-color: rgba(245, 245, 245, 0.5);
+    border-radius: 4px;
+    border: 1px solid var(--el-border-color-light);
+    
+    .gm-file-tag {
+      display: flex;
+      align-items: center;
+      max-width: 70%;
+      
+      .el-icon {
+        margin-right: 5px;
+      }
+      
+      span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+  }
+}
+
+/* 新增: 结果展示容器 */
+.gm-result-container {
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid var(--el-border-color-lighter);
+  border-radius: 4px;
+  background-color: var(--el-fill-color-light);
+  
+  .gm-result-title {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--el-text-color-primary);
+  }
+  
+  .gm-result-textarea {
+    width: 100%;
+    
+    :deep(.el-textarea__inner) {
+      background-color: var(--el-fill-color-blank);
+      border: 1px solid var(--el-border-color-lighter);
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      color: var(--el-text-color-primary);
+    }
+  }
+}
+
+/* 新增: 加载容器 */
+.gm-loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+  padding: 15px;
+  background-color: var(--el-fill-color-light);
+  border-radius: 4px;
+  font-size: 14px;
+  color: var(--el-text-color-secondary);
+  
+  .el-icon {
+    margin-right: 10px;
+    font-size: 20px;
+  }
+}
+
+/* 深色模式样式 */
+html.dark {
+  background: var(--dark-bg-primary);
+  color: var(--dark-text-primary);
+
+  .el-card {
+    background-color: rgba(10, 10, 10, 0.7) !important; /* 深色半透明背景 */
+    backdrop-filter: blur(10px) !important; /* 毛玻璃效果 */
+    border-color: rgba(34, 34, 34, 0.5) !important; /* 半透明边框 */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25), 0 2px 8px rgba(0, 0, 0, 0.15) !important; /* 深色立体阴影 */
+    color: var(--dark-text-primary);
+    
+    &:hover {
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.2) !important; /* 悬浮时阴影加深 */
+      transform: translateY(-2px); /* 轻微上浮效果 */
+    }
+    
+    .el-card__header {
+      background-color: rgba(17, 17, 17, 0.8) !important; /* 深色半透明背景 */
+      backdrop-filter: blur(5px) !important; /* 毛玻璃效果 */
+      border-color: rgba(34, 34, 34, 0.5) !important; /* 半透明边框 */
+      color: var(--dark-text-primary);
+    }
+    .el-card__body {
+       color: var(--dark-text-secondary);
+    }
+  }
+  
+  .el-select-dropdown {
+    background-color: var(--dark-bg-secondary) !important;
+    border-color: var(--dark-border-color) !important;
+    
+    .el-select-dropdown__item {
+      color: var(--dark-text-primary) !important;
+      
+      &.hover, &:hover {
+        background-color: var(--dark-bg-tertiary) !important;
+      }
+    }
+  }
+  
+  .el-button--primary {
+    background-color: var(--dark-accent-primary) !important;
+    border-color: var(--dark-accent-primary) !important;
+    
+    &:hover, &:focus {
+      background-color: #53d6a4 !important;
+      border-color: #53d6a4 !important;
+    }
+  }
+  
+  .el-table {
+    background-color: var(--dark-bg-secondary) !important;
+    color: var(--dark-text-primary) !important;
+    
+    th, td {
+      background-color: var(--dark-bg-secondary) !important;
+      border-bottom-color: var(--dark-border-color) !important;
+    }
+    
+    th {
+      background-color: var(--dark-bg-tertiary) !important;
+    }
+    
+    tr:hover > td {
+      background-color: var(--dark-bg-tertiary) !important;
+    }
+  }
+  
+  .el-form-item__label {
+    color: var(--dark-text-primary) !important;
+  }
+  
+  /* 深色模式下的输入框 */
+  .el-input__inner, .el-textarea__inner {
+    background-color: rgba(10, 10, 10, 0.7) !important; /* 深色半透明背景 */
+    backdrop-filter: blur(5px) !important;
+    border: 1px solid rgba(34, 34, 34, 0.8) !important;
+    color: var(--dark-text-primary); /* 深色模式下输入文字颜色 */
+    
+    &:focus {
+      box-shadow: 0 0 0 2px rgba(66, 185, 131, 0.2) !important; /* 深色模式聚焦光晕 */
+      border-color: var(--dark-accent-primary) !important;
+    }
+  }
+  
+  /* 新增: 深色模式下的表单操作按钮区域 */
+  .form-action-buttons {
+    border-top-color: var(--dark-border-color);
+  }
+  
+  /* 新增: 深色模式下的步骤指示器 */
+  .step-indicator {
+    background-color: var(--dark-step-bg);
+    border-color: var(--dark-step-border);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .step-counter {
+    color: var(--dark-step-counter);
+  }
+  
+  .step-percentage {
+    color: var(--dark-step-percentage);
+  }
+  
+  .step-progress-container {
+    background-color: var(--dark-step-progress-bg);
+  }
+  
+  .step-progress {
+    background: var(--dark-step-progress-fill);
+  }
+  
+  .step-description {
+    color: var(--dark-step-text);
+  }
+  
+  /* 新增: 深色模式下的分析加载区 */
+  .analysis-loading {
+    background-color: rgba(20, 20, 20, 0.7);
+    color: var(--dark-text-primary);
+  }
+  
+  /* 深色模式下的文件上传区样式 */
+  .gm-upload-container {
+    border-color: var(--dark-border-color);
+    background-color: rgba(30, 30, 30, 0.4);
+  }
+  
+  .gm-text-uploader {
+    .gm-upload-trigger {
+      .el-icon {
+        color: var(--dark-accent-primary);
+      }
+      
+      span {
+        color: var(--dark-text-primary);
+      }
+    }
+  }
+  
+  .gm-file-preview {
+    background-color: rgba(35, 35, 35, 0.7);
+    
+    .gm-file-info {
+      .el-icon {
+        color: var(--dark-text-secondary);
+      }
+      
+      .gm-filename {
+        color: var(--dark-text-primary);
+      }
+    }
+  }
+  
+  .gm-upload-loading {
+    color: var(--dark-text-secondary);
+  }
+  
+  .gm-textarea .el-textarea__inner {
+    background-color: rgba(15, 15, 15, 0.7) !important;
+    border-color: rgba(40, 40, 40, 0.8) !important;
+    color: #e8e8e8;
+    
+    &:focus {
+      box-shadow: 0 0 0 2px rgba(66, 185, 131, 0.2) !important;
+      border-color: #42b983 !important;
+    }
+  }
+  
+  .gm-upload-container {
+    background-color: rgba(20, 20, 20, 0.6);
+    border-color: #333;
+    
+    &:hover {
+      border-color: #42b983;
+      background-color: rgba(25, 25, 25, 0.7);
+    }
+  }
+  
+  .gm-uploaded-file-info {
+    background-color: rgba(15, 35, 15, 0.6);
+    border-color: #2b3e26;
+    
+    .el-tag {
+      color: #85ce61;
+    }
+  }
+} 
+
+/* 新增: 卡片头部样式 */
+.gm-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 新增: 上传内容区域样式 */
+.gm-upload-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  border: 1px dashed var(--el-border-color-lighter);
+  border-radius: 4px;
+  width: 100%;
+  height: 120px;
+  
+  .el-icon {
+    font-size: 28px;
+    color: var(--el-color-primary);
+    margin-bottom: 10px;
+  }
+}
+
+/* 新增: 已上传文件标签样式 */
+.gm-file-indicator {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  padding: 5px 10px;
+  background-color: var(--el-color-success-light-9);
+  border: 1px solid var(--el-color-success-light-5);
+  border-radius: 4px;
+  font-size: 13px;
+  color: var(--el-color-success-dark-2);
+  
+  .el-icon {
+    margin-right: 5px;
+  }
+}
+
+/* 新增: 文件标签样式 */
+.gm-file-tag {
+  background-color: var(--el-color-success-light-9);
+  border-color: var(--el-color-success-light-5);
+  color: var(--el-color-success-dark-2);
+}
+
+/* 新增: 已选文件操作区域 */
+.gm-selected-file {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* 新增: 上传状态指示器 */
+.gm-uploading-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 15px;
+  margin: 10px 0;
+  background-color: rgba(64, 158, 255, 0.1);
+  border-radius: 4px;
+  border: 1px solid rgba(64, 158, 255, 0.2);
+  color: #409EFF;
+  
+  .el-icon {
+    margin-right: 8px;
+    font-size: 18px;
+  }
+  
+  span {
+    font-size: 14px;
+  }
+}
+
+/* 新增: 分析结果区域样式 */
+.gm-analysis-result {
+  margin-top: 20px;
+  border-radius: 4px;
+  
+  h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: var(--el-text-color-primary);
+  }
+  
+  pre {
+    white-space: pre-wrap; 
+    word-wrap: break-word; 
+    background-color: var(--el-fill-color-blank);
+    border: 1px solid var(--el-border-color-lighter);
+    padding: 15px;
+    border-radius: 4px;
+    max-height: 500px;
+    overflow-y: auto;
+    font-size: 0.9em;
+    line-height: 1.6;
+    color: var(--el-text-color-regular);
+  }
+}
+
+/* 新增: 模板树容器样式 */
+.gm-template-tree-container {
+  width: 100%;
+  max-height: 400px; 
+  overflow-y: auto; 
+  border: 1px solid var(--el-border-color-lighter);
+  border-radius: 4px;
+  padding: 10px;
+  background-color: var(--el-fill-color-light);
+}
+
+/* 新增: 上传提示信息统一样式 */
+.el-upload__tip {
+  margin-top: 8px;
+  margin-left: 8px;
+  font-size: 13px;
+  color: #909399;
+  line-height: 1.5;
+}
+
+/* 文件上传组件容器统一样式 */
+.gm-text-uploader {
+  display: inline-block;
+  
+  .el-upload-dragger {
+    width: 100%;
+    padding: 15px;
+    border-radius: 4px;
+    background-color: rgba(245, 247, 250, 0.8);
+    border: 1px dashed #dcdfe6;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      border-color: #42b983;
+      background-color: rgba(245, 247, 250, 0.9);
+    }
+  }
+}
+
+/* 上传按钮区域统一样式 */
+.gm-upload-actions {
+  display: flex;
+  flex-direction: column;
+  margin-top: 12px;
+}
+
+/* 统一的结果容器样式 */
+.gm-result-textarea {
+  width: 100%;
+  
+  .el-textarea__inner {
+    background-color: rgba(250, 250, 250, 0.7) !important;
+    border: 1px solid #ebeef5;
+    border-radius: 4px;
+    padding: 15px;
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 150px;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  }
+}
+
+/* 卡片标题栏统一样式 */
+.gm-card-header, .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  
+  .left-section, .header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    
+    h2 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+    }
+  }
+  
+  .action-button {
+    height: 36px;
+    padding: 0 16px;
+  }
+}
+
+/* 深色模式下的样式调整 */
+html.dark {
+  .gm-uploading-status {
+    background-color: rgba(64, 158, 255, 0.1);
+    border-color: rgba(64, 158, 255, 0.3);
+    color: #79bbff;
+  }
+  
+  .el-upload__tip {
+    color: #a6a9ad;
+  }
+  
+  .gm-text-uploader .el-upload-dragger {
+    background-color: rgba(25, 25, 25, 0.6);
+    border-color: #333;
+    
+    &:hover {
+      border-color: #42b983;
+    }
+  }
+  
+  .gm-result-textarea .el-textarea__inner {
+    background-color: rgba(25, 25, 25, 0.7) !important;
+    border-color: #333;
+    color: #e0e0e0;
+  }
+} 
+
+/* 选项容器的统一样式 */
+.gm-options-container {
+  padding: 10px;
+  border-radius: 4px;
+  background-color: rgba(250, 250, 250, 0.6);
+  border: 1px solid #f0f0f0;
+  
+  .el-checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    
+    .el-checkbox {
+      margin-right: 0 !important;
+      margin-left: 0 !important;
+      
+      .el-checkbox__label {
+        font-size: 14px;
+        color: var(--el-text-color-primary);
+      }
+    }
+  }
+}
+
+/* 统一的操作按钮样式 */
+.action-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 500;
+  height: 36px;
+  padding: 0 18px;
+  
+  .el-icon {
+    font-size: 16px;
+  }
+}
+
+/* 分隔列样式 */
+.divider-col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--el-text-color-secondary);
+}
+
+/* 深色模式适配 */
+html.dark {
+  .gm-options-container {
+    background-color: rgba(20, 20, 20, 0.6);
+    border-color: #333;
+    
+    .el-checkbox__label {
+      color: var(--dark-text-primary) !important;
+    }
+  }
+} 
+
+/* 响应式设计增强 */
+@media (max-width: 767px) {
+  .gm-card-header, .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    
+    .right-section, .action-buttons {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      
+      .action-button {
+        flex: 1;
+        margin-right: 8px;
+        padding: 0 10px;
+        
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+  
+  .el-form-item {
+    .el-form-item__label {
+      float: none;
+      display: block;
+      text-align: left;
+      margin-bottom: 8px;
+    }
+    
+    .el-form-item__content {
+      margin-left: 0 !important;
+    }
+  }
+  
+  .gm-options-container {
+    .el-checkbox-group {
+      flex-direction: column;
+      gap: 8px;
+    }
+  }
+  
+  .gm-uploaded-file-info {
+    flex-direction: column;
+    align-items: flex-start;
+    
+    .el-button {
+      margin-top: 8px;
+    }
+  }
+  
+  .select-with-button {
+    flex-direction: column;
+    
+    .refresh-button {
+      margin-top: 8px;
+      align-self: flex-end;
+    }
+  }
+  
+  .el-row .el-col {
+    margin-bottom: 15px;
+  }
+}
+
+/* 平板设备优化 */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .gm-options-container {
+    .el-checkbox-group {
+      gap: 8px;
+    }
+  }
+  
+  .gm-card-header .action-button {
+    padding: 0 12px;
+  }
+}
+
+/* 统一的文本描述样式 */
+.text-description {
+  font-size: 14px;
+  color: var(--el-text-color-secondary);
+  margin: 6px 0;
+  line-height: 1.6;
+}
+
+/* 更统一的选择器样式 */
+.gm-selector {
+  width: 100%;
+  
+  .el-select {
+    width: 100%;
+  }
+}
+
+/* Add consistent spacing for form items within feature cards */
+.feature-card .el-form-item, 
+.analysis-card .el-form-item {
+  margin-bottom: 18px; /* Standardize vertical spacing */
+}
+
+/* Adjustments for dark mode textarea/input borders if needed */
+// html.dark { 
+//   /* ... existing dark mode styles ... */
+// } 

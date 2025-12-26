@@ -1,0 +1,280 @@
+// chat-base.scss - 基础样式变量和共享样式
+
+// 颜色变量
+:root {
+  --chat-bg-color: rgba(249, 249, 249, 0.9);
+  --chat-shadow-color: rgba(0, 0, 0, 0.08);
+  --chat-border-radius: 16px;
+  --message-border-radius: 18px;
+  --chat-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --chat-hover-transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+  
+  // 深色模式变量
+  --dark-bg-secondary: #1a1a1a;
+  --dark-bg-tertiary: #222;
+  --dark-border-color: #333;
+  --dark-text-primary: #e6e6e6;
+  --dark-text-secondary: #aaa;
+  --dark-fill-color: #444;
+  --dark-code-bg: #121212;
+}
+
+// 添加glyphchat命名空间作为全局包装器
+.glyphchat {
+  --chat-bg-color: var(--el-bg-color-overlay, #fff) !important;
+  --chat-border-radius: 12px !important;
+  --message-border-radius: 16px !important;
+  --chat-shadow-color: rgba(0, 0, 0, 0.05) !important;
+  --chat-transition: all 0.25s ease !important;
+  --chat-hover-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  --dark-code-bg: #1e1e1e !important;
+  
+  .chat-main-container {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+    border-radius: var(--chat-border-radius) !important;
+    background-color: var(--chat-bg-color) !important;
+    overflow: hidden !important;
+    position: relative !important;
+    box-shadow: 0 4px 20px var(--chat-shadow-color) !important;
+    transition: var(--chat-transition) !important;
+  }
+
+  .chat-content {
+    display: flex !important;
+    flex-direction: column !important;
+    flex-grow: 1 !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+    position: relative !important;
+  }
+}
+
+// 聊天内容基础样式
+.glyphchat .chat-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 80vh;
+  overflow: hidden;
+  border-radius: var(--chat-border-radius);
+}
+
+// Chat mixin styles
+@mixin chat-message-container {
+  flex-grow: 1 !important;
+  overflow-y: auto !important;
+  background-color: var(--chat-bg-color) !important;
+  border-top: 1px solid var(--el-border-color-lighter) !important;
+  border-bottom: 1px solid var(--el-border-color-lighter) !important;
+  position: relative !important;
+  -webkit-overflow-scrolling: touch !important;
+  scroll-behavior: smooth !important;
+  will-change: scroll-position !important;
+  border-radius: var(--chat-border-radius) !important;
+}
+
+@mixin chat-card {
+  background-color: var(--el-bg-color) !important;
+  border-radius: var(--chat-border-radius) !important;
+  box-shadow: 0 3px 15px var(--chat-shadow-color) !important;
+  overflow: hidden !important;
+  transition: var(--chat-transition) !important;
+  
+  &:hover {
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08) !important;
+    transform: translateY(-2px) !important;
+  }
+}
+
+@mixin chat-input {
+  padding: 12px 16px !important;
+  border-radius: 8px !important;
+  border: 1px solid var(--el-border-color) !important;
+  background-color: var(--el-bg-color) !important;
+  transition: var(--chat-transition) !important;
+  box-shadow: 0 2px 6px var(--chat-shadow-color) !important;
+  
+  &:focus, &:focus-within {
+    border-color: var(--el-color-primary) !important;
+    box-shadow: 0 3px 10px rgba(var(--el-color-primary-rgb), 0.2) !important;
+  }
+}
+
+@mixin chat-button {
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  transition: var(--chat-hover-transition) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  
+  &:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15) !important;
+  }
+  
+  &:active {
+    transform: translateY(0) !important;
+  }
+}
+
+// 响应式断点
+@mixin mobile {
+  @media (max-width: 768px) {
+    @content;
+  }
+}
+
+// 聊天组件共享变量 - 使用全局主题变量
+:root {
+  // 基本布局变量
+  --chat-border-radius: 6px;
+  --chat-transition: all 0.3s ease;
+  --chat-hover-transition: all 0.2s ease;
+  --chat-shadow-color: rgba(0, 0, 0, 0.05);
+  
+  // 使用全局主题变量
+  --chat-bg-light: var(--light-card-bg, #fffbf0);
+  --chat-bg-dark: var(--dark-card-bg, #0f0f0f);
+  --chat-border-light: var(--light-border-color, #d7cdb8);
+  --chat-border-dark: var(--dark-border-color, #222222);
+  --chat-accent-light: var(--light-accent-primary, #8a6d3b);
+  --chat-accent-dark: var(--dark-accent-primary, #42b983);
+}
+
+// 基础动画
+@keyframes messagePopIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.8); opacity: 0.7; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(0.8); opacity: 0.7; }
+}
+
+@keyframes contentFadeIn {
+  from {
+    opacity: 0.5;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// 通用布局
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+// 清除元素基础样式
+.chat-reset {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+// 滚动条美化
+.custom-scrollbar {
+  scrollbar-width: thin; // Firefox支持
+  scrollbar-color: var(--el-border-color) transparent; // Firefox支持
+  
+  &::-webkit-scrollbar {
+    width: 8px; // 增加宽度
+    height: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 4px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--el-border-color);
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    border: 2px solid transparent; // 添加透明边框
+    background-clip: padding-box; // 背景仅填充内容区
+    min-height: 40px; // 设置最小高度
+  }
+  
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: var(--el-color-primary-light-3);
+  }
+  
+  // 确保滚动条在深色模式下可见
+  html.dark & {
+    scrollbar-color: var(--dark-border-color) transparent;
+    
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(255, 255, 255, 0.2); // 更明显的颜色
+    }
+    
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: var(--el-color-primary);
+    }
+  }
+  
+  // 确保滚动条在鼠标悬停时更加明显
+  &:hover {
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--el-border-color-darker);
+    }
+  }
+}
+
+// 聊天主容器 - 使用全局样式
+.chat-main-container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 250px);
+  min-height: 450px;
+  max-height: 650px;
+  border-radius: var(--chat-border-radius);
+  border: 1px solid var(--el-border-color-light);
+  background-color: var(--chat-bg-light);
+  overflow: hidden;
+  box-shadow: 0 4px 20px var(--chat-shadow-color);
+  transition: var(--chat-transition);
+  
+  // 应用全局卡片效果
+  backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.7);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+// 响应式设计
+@media (max-width: 767px) {
+  .chat-main-container {
+    height: calc(100vh - 180px);
+  }
+}
+
+// 设置特定比例
+html.light .chat-main-container {
+  background-color: var(--chat-bg-light);
+  border-color: var(--chat-border-light);
+}
+
+html.dark .chat-main-container {
+  background-color: var(--chat-bg-dark);
+  border-color: var(--chat-border-dark);
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.2);
+}

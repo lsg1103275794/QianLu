@@ -1,0 +1,37 @@
+# --- style_rules.yaml ---
+# Defines content style validation rules for the 'output' field (JSON string)
+# of the generated Alpaca records.
+
+# --- Length Constraints (on the raw JSON string) ---
+length_rules:
+  max_output_length: 1500 # Max characters for the entire JSON string
+  min_output_length: 20   # Min characters
+
+# --- Content Rules (applied to values inside the parsed JSON) ---
+content_rules:
+  language: "zh" # Expected language code (e.g., "zh", "en"). Uses langdetect. Set to null to disable.
+  # List of regex patterns. If any pattern matches in any string value of the output JSON, validation fails.
+  disallowed_patterns:
+    - "\\b(广告|推广|免费|点击|加微信号|加V|加\\s?Q)\\b" # Common spam/ad words (case-insensitive due to validator implementation)
+    - "[\\uE000-\\uF8FF]" # Filter Private Use Area characters (often problematic)
+    # - "some_other_pattern"
+
+# --- Similarity Rules (for tone/style consistency) ---
+similarity_rules:
+  # Requires sentence-transformers to be installed. Set threshold to null to disable.
+  tone_similarity_threshold: 0.6 # Cosine similarity threshold (0.0 to 1.0)
+  # A representative text example of the desired style. Must be provided if threshold is set.
+  target_style_example: "本文旨在客观分析所提供文本的结构特征、核心论证框架及语言运用风格。分析力求准确、简洁、中立，避免主观臆断。"
+  # Model to use for calculating embeddings. Needs to be compatible with sentence-transformers.
+  similarity_model_name: "paraphrase-multilingual-mpnet-base-v2" # Good multilingual model
+  # similarity_model_name: "shibing624/text2vec-base-chinese" # Alternative Chinese model
+
+# --- Future rule groups (examples) ---
+# pii_rules:
+#   detect_email: true
+#   detect_phone_cn: true
+#   replacement_strategy: "[REDACTED]" # or "hash", "placeholder"
+
+# formatting_rules:
+#   ensure_utf8: true
+#   check_json_syntax: true # Already handled by format_enforcer, but could add stricter checks here

@@ -1,0 +1,108 @@
+{
+  "standard_name": "provider_name",
+  "display_name": "Provider Display Name",
+  "handler_module_path": "src.providers.handlers.provider_name",
+  "handler_class_name": "ProviderNameHandler",
+  "aliases": ["provider", "providername", "provider-name"],
+  "env_prefix": "PROVIDER_",
+  "api_parameters": {
+    "runtime": [
+      {
+        "name": "temperature",
+        "env_var": "${ENV_PREFIX}TEMPERATURE",
+        "type": "float",
+        "default": 0.7,
+        "min_value": 0.0,
+        "max_value": 1.0,
+        "description": "控制生成文本的随机性"
+      },
+      {
+        "name": "max_tokens",
+        "env_var": "${ENV_PREFIX}MAX_TOKENS",
+        "type": "int",
+        "default": 2000,
+        "min_value": 1,
+        "description": "限制生成的最大token数量"
+      },
+      {
+        "name": "top_p",
+        "env_var": "${ENV_PREFIX}TOP_P",
+        "type": "float",
+        "default": 1.0,
+        "min_value": 0.0,
+        "max_value": 1.0,
+        "description": "控制生成文本的多样性"
+      }
+    ],
+    "default": [
+      {
+        "name": "default_temperature",
+        "env_var": "${ENV_PREFIX}DEFAULT_TEMPERATURE",
+        "type": "float",
+        "default": 0.7,
+        "min_value": 0.0,
+        "max_value": 1.0,
+        "description": "控制生成文本的随机性的默认值"
+      },
+      {
+        "name": "default_max_tokens",
+        "env_var": "${ENV_PREFIX}DEFAULT_MAX_TOKENS",
+        "type": "int",
+        "default": 2000,
+        "min_value": 1,
+        "description": "限制生成的最大token数量的默认值"
+      },
+      {
+        "name": "default_top_p",
+        "env_var": "${ENV_PREFIX}DEFAULT_TOP_P",
+        "type": "float",
+        "default": 1.0,
+        "min_value": 0.0,
+        "max_value": 1.0,
+        "description": "控制生成文本的多样性的默认值"
+      }
+    ]
+  },
+  "credentials": [
+    {
+      "name": "api_key",
+      "env_var": "${ENV_PREFIX}API_KEY",
+      "type": "password",
+      "required": true,
+      "description": "API密钥"
+    },
+    {
+      "name": "api_secret",
+      "env_var": "${ENV_PREFIX}API_SECRET",
+      "type": "password",
+      "required": false,
+      "description": "API密钥的Secret（如果需要）"
+    }
+  ],
+  "endpoint_config": {
+    "name": "endpoint",
+    "env_var": "${ENV_PREFIX}ENDPOINT",
+    "type": "text",
+    "default": "https://api.provider.com/v1",
+    "required": true,
+    "description": "API端点URL"
+  },
+  "model_config": {
+    "name": "default_model",
+    "env_var": "${ENV_PREFIX}DEFAULT_MODEL",
+    "type": "text",
+    "default": "provider-model-name",
+    "required": false,
+    "description": "默认使用的模型名称"
+  },
+  "other_settings": [
+    {
+      "name": "request_timeout",
+      "env_var": "${ENV_PREFIX}REQUEST_TIMEOUT",
+      "type": "int",
+      "default": 60,
+      "min_value": 1,
+      "description": "API请求超时时间（秒）"
+    }
+  ]
+} 

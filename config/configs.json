@@ -1,0 +1,53 @@
+{
+  "providers": [
+    {
+      "name": "ollama_local",
+      "description": "Ollama 本地服务",
+      "expected_env_vars": []
+    },
+    {
+      "name": "volc_engine",
+      "description": "火山引擎方舟平台",
+      "expected_env_vars": [
+        "VOLC_API_KEY",
+        "VOLC_ENDPOINT",
+        "VOLC_DEFAULT_MODEL"
+      ]
+    },
+    {
+      "name": "silicon_flow",
+      "description": "硅基流动",
+      "expected_env_vars": [
+        "SILICONFLOW_API_KEY",
+        "SILICONFLOW_API_BASE_URL",
+        "SILICONFLOW_DEFAULT_MODEL"
+      ]
+    },
+    {
+      "name": "zhipu_ai",
+      "description": "智谱 AI 大模型平台",
+      "expected_env_vars": [
+        "ZHIPU_API_KEY",
+        "ZHIPU_ENDPOINT",
+        "ZHIPU_DEFAULT_MODEL"
+      ]
+    },
+    {
+      "name": "deepseek_ai",
+      "description": "深度求索 AI 平台",
+      "expected_env_vars": [
+        "DEEPSEEK_API_KEY",
+        "DEEPSEEK_ENDPOINT",
+        "DEEPSEEK_DEFAULT_MODEL"
+      ]
+    },
+    {
+      "name": "google_gemini",
+      "description": "Google Gemini API",
+      "expected_env_vars": [
+        "GOOGLE_API_KEY",
+        "GOOGLE_DEFAULT_MODEL"
+      ]
+    }
+  ]
+} 

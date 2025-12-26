@@ -1,0 +1,46 @@
+{
+    "general": {
+        "default_language": "auto",
+        "use_cache": true,
+        "cache_ttl": 86400
+    },
+    "dictionaries": {
+        "use_custom_dict": false,
+        "custom_dict_path": "resources/dictionaries/custom_words.txt",
+        "stopwords_zh_path": "resources/dictionaries/stopwords_zh.txt",
+        "stopwords_en_path": "resources/dictionaries/stopwords_en.txt",
+        "positive_zh_dict_path": "resources/dictionaries/positive_zh.txt",
+        "negative_zh_dict_path": "resources/dictionaries/negative_zh.txt",
+        "positive_en_dict_path": "resources/dictionaries/positive_en.txt",
+        "negative_en_dict_path": "resources/dictionaries/negative_en.txt"
+    },
+    "keyword_extraction": {
+        "default_method": "tfidf",
+        "default_top_k": 10,
+        "min_word_length": 2,
+        "allow_pos": ["n", "nr", "ns", "nz", "v", "vn"]
+    },
+    "sentiment_analysis": {
+        "sensitivity": 1.0,
+        "neutral_threshold": 0.1
+    },
+    "readability": {
+        "chinese_formula": "simple",
+        "english_formula": "flesch"
+    },
+    "topic_modeling": {
+        "default_num_topics": 3,
+        "keywords_per_topic": 5,
+        "min_topic_relevance": 0.3
+    },
+    "structure_analysis": {
+        "min_heading_length": 3,
+        "max_heading_length": 50,
+        "paragraph_break_pattern": "\\n\\s*\\n"
+    },
+    "advanced_options": {
+        "use_nltk": true,
+        "use_textblob": true,
+        "enable_language_detection": true
+    }
+} 

@@ -1,0 +1,198 @@
+// 深色模式样式覆盖 - 使用全局变量
+html.dark {
+  // 聊天容器深色模式
+  .chat-main-container {
+    background-color: var(--dark-bg-primary, #000000);
+    border-color: var(--dark-border-color, #222222);
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  // 消息深色模式
+  .message {
+    border-color: var(--dark-border-color, #222222);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+
+    &.user {
+      background-color: var(--dark-bg-secondary, #0a0a0a);
+      border-color: var(--dark-border-color, #222222);
+    }
+
+    &.assistant {
+      background-color: var(--dark-bg-tertiary, #111111);
+      border-color: rgba(var(--dark-accent-primary, #42b983), 0.3);
+    }
+  }
+
+  // 消息头部深色模式
+  .message-header {
+    background-color: var(--dark-bg-secondary, #0a0a0a);
+    border-bottom-color: var(--dark-border-color, #222222);
+    
+    strong {
+      color: var(--dark-text-primary, #e8e8e8);
+    }
+    
+    .message-time {
+      color: var(--dark-text-secondary, #b0b0b0);
+    }
+    
+    .processing-indicator .dot {
+      background-color: var(--dark-accent-primary, #42b983);
+    }
+  }
+
+  // 思考内容深色模式
+  .thinking-content {
+    background-color: var(--dark-bg-secondary, #0a0a0a);
+
+    .thinking-header {
+      background-color: rgba(34, 34, 34, 0.8);
+      border-color: var(--dark-border-color, #222222);
+      color: var(--dark-text-secondary, #b0b0b0);
+    }
+    
+    .thinking-body {
+      color: var(--dark-text-secondary, #b0b0b0);
+      
+      pre {
+        background-color: var(--dark-code-bg, #121212);
+        border: 1px solid #333;
+      }
+    }
+  }
+
+  // 原始内容深色模式
+  .raw-content {
+    background-color: rgba(20, 20, 20, 0.7);
+    border: 1px solid #333;
+    
+    pre {
+      color: var(--dark-text-primary, #e8e8e8);
+    }
+  }
+
+  // 动态窗口深色模式
+  .dynamic-window {
+    background-color: var(--dark-bg-secondary, #0a0a0a);
+    border-color: var(--dark-border-color, #222222);
+
+    .thinking-visualization {
+      .thinking-progress {
+        background-color: #333;
+        
+        .thinking-bar {
+          background-color: var(--dark-accent-primary, #42b983);
+        }
+      }
+
+      .step {
+        .step-icon {
+          background-color: #1a1a1a;
+          border-color: #333;
+        }
+        
+        &.active .step-icon {
+          background-color: rgba(66, 185, 131, 0.2);
+          border-color: var(--dark-accent-primary, #42b983);
+        }
+        
+        .step-name {
+          color: var(--dark-text-secondary, #b0b0b0);
+        }
+      }
+    }
+
+    .stream-details {
+      background-color: #1a1a1a;
+      border-color: #333;
+      
+      .stream-detail-header {
+        background-color: #222;
+        border-color: #333;
+        color: var(--dark-text-primary, #e8e8e8);
+      }
+      
+      .stream-tokens .token {
+        background-color: #222;
+        border-color: #444;
+        color: #ccc;
+        
+        &.token-flash {
+          background-color: rgba(66, 185, 131, 0.2);
+        }
+      }
+    }
+  }
+
+  // 消息内容深色模式
+  .message-content {
+    color: var(--dark-text-primary, #e8e8e8);
+    
+    &.user-content {
+      background-color: rgba(66, 185, 131, 0.1);
+    }
+    
+    &.assistant-content {
+      background-color: rgba(20, 20, 20, 0.5);
+    }
+  }
+  
+  // 按钮样式深色模式
+  .copy-btn, .raw-btn, .expand-btn {
+    background-color: rgba(50, 50, 50, 0.8) !important;
+    border-color: #444 !important;
+    color: #ccc !important;
+    
+    &:hover {
+      background-color: rgba(70, 70, 70, 0.8) !important;
+      border-color: #555 !important;
+    }
+  }
+  
+  // 光标深色模式
+  .typing-cursor {
+    background-color: var(--dark-accent-primary, #42b983);
+  }
+  
+  // 滚动按钮深色模式
+  .scroll-to-bottom-btn .el-button {
+    background-color: rgba(40, 40, 40, 0.7) !important;
+    border-color: #444 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    
+    &:hover {
+      background-color: rgba(60, 60, 60, 0.8) !important;
+    }
+  }
+
+  // 聊天输入区域深色模式
+  .chat-input-wrapper {
+    background-color: var(--el-bg-color-darker);
+    border-top-color: var(--el-border-color-darker);
+  }
+
+  .params-panel {
+    background-color: var(--el-bg-color);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+    .params-header {
+      background-color: var(--el-bg-color-darker);
+    }
+
+    .params-content {
+      border-top-color: var(--el-border-color-darker);
+    }
+  }
+
+  .chat-input-container {
+    background-color: var(--el-bg-color);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  // 键盘提示深色模式
+  .keystroke-hint kbd {
+    background-color: var(--el-bg-color-darker);
+    border-color: var(--el-border-color-darker);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  }
+}

@@ -1,0 +1,872 @@
+// 聊天消息样式 - 现代化设计
+.chat-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  width: 100%;
+  background-color: var(--el-bg-color-page, #f5f7fa);
+}
+
+.chat-messages-container {
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  width: 100%;
+  box-sizing: border-box;
+  
+  // 为避免第一条消息顶到最上面，添加顶部间距
+  &:before {
+    content: '';
+    display: block;
+    height: 10px;
+  }
+  
+  // 为避免最后一条消息贴到底部，添加底部间距
+  &:after {
+    content: '';
+    display: block;
+    height: 20px;
+  }
+}
+
+// 重新设计消息样式
+.message {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  margin-bottom: 18px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, var(--el-bg-color) 90%, var(--el-fill-color-light) 100%);
+  box-shadow: 0 4px 20px 0 rgba(0,0,0,0.07), 0 1.5px 4px 0 rgba(0,0,0,0.03);
+  border: none;
+  overflow: hidden;
+  position: relative;
+  transition: box-shadow 0.3s, background 0.3s;
+  padding: 0;
+  
+  &:hover {
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.14), 0 2px 8px 0 rgba(0,0,0,0.08);
+  }
+  
+  &.user {
+    align-self: flex-end;
+    max-width: 75%;
+    background: linear-gradient(135deg, rgba(var(--el-color-primary-rgb),0.08) 90%, var(--el-fill-color-light) 100%);
+    border-color: rgba(var(--el-color-primary-rgb), 0.1);
+    
+    // 用户消息右侧添加小三角
+    &:before {
+      content: '';
+      position: absolute;
+      right: -8px;
+      top: 20px;
+      border-style: solid;
+      border-width: 8px 0 8px 8px;
+      border-color: transparent transparent transparent rgba(var(--el-color-primary-rgb), 0.05);
+    }
+  }
+  
+  &.assistant {
+    align-self: flex-start;
+    max-width: 85%;
+    background: linear-gradient(135deg, var(--el-bg-color) 90%, var(--el-fill-color-light) 100%);
+    border-color: var(--el-border-color-light);
+    overflow-wrap: break-word;
+    
+    // 助手消息左侧添加小三角
+    &:before {
+      content: '';
+      position: absolute;
+      left: -8px;
+      top: 20px;
+      border-style: solid;
+      border-width: 8px 8px 8px 0;
+      border-color: transparent var(--el-bg-color) transparent transparent;
+    }
+  }
+  
+  &.is-error {
+    border-color: var(--el-color-danger-light);
+    background-color: var(--el-color-danger-lighter);
+  }
+  
+  &.assistant-streaming {
+    transition: all 0.3s ease;
+    
+    &.expanded {
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+  }
+}
+
+// 优化消息头部
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+  background-color: rgba(var(--el-color-info-rgb), 0.03);
+  border-bottom: 1px solid var(--el-border-color-lighter);
+  font-size: 14px;
+  
+  strong {
+    font-weight: 600;
+    color: var(--el-text-color-primary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    
+    // 添加用户和助手的图标
+    &:before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--el-color-primary);
+    }
+  }
+  
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px; // 增加间距
+    
+    .message-time {
+      font-size: 12px;
+      color: var(--el-text-color-secondary);
+      margin-right: 4px;
+    }
+    
+    // 美化处理指示器
+    .processing-indicator {
+      display: flex;
+      align-items: center;
+      
+      .dot {
+        width: 5px;
+        height: 5px;
+        background-color: var(--el-color-primary);
+        border-radius: 50%;
+        margin: 0 2px;
+        animation: pulse 1.4s infinite;
+        
+        &:nth-child(1) {
+          animation-delay: -0.3s;
+        }
+        
+        &:nth-child(2) {
+          animation-delay: -0.15s;
+        }
+        
+        &:nth-child(3) {
+          animation-delay: 0s;
+        }
+      }
+    }
+  }
+}
+
+// 优化消息内容
+.message-content {
+  padding: 24px 16px;
+  background: transparent;
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-size: 14.5px;  // 进一步减小字体大小
+  line-height: 1.85;  // 增加行高以减轻密集感
+  color: var(--el-text-color-primary);
+  margin: 0;
+  position: relative;
+  word-break: break-word;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  overflow-x: visible;
+  max-width: 100%;
+  width: 100%;
+  
+  // 去掉水平滚动条，只为代码块保留
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  
+  p {
+    margin: 0 0 22px 0;  // 增加段落之间的间距
+    &:last-child { margin-bottom: 0; }
+  }
+  
+  &.user-content {
+    background-color: rgba(var(--el-color-primary-rgb), 0.05);
+    color: var(--el-text-color-primary);
+  }
+  
+  &.assistant-content {
+    background-color: var(--el-bg-color);
+    color: var(--el-text-color-primary);
+  
+  &.streaming-content {
+    position: relative;
+    min-height: 24px;
+      animation: contentFadeIn 0.3s ease-in-out;
+      
+      // 强制流式内容自动换行
+      white-space: pre-wrap;
+      word-break: break-word;
+      overflow-wrap: break-word;
+      
+      // 添加流式内容的段落样式修复
+      p {
+        white-space: pre-wrap;
+        word-break: break-word;
+        margin-bottom: 16px;
+      }
+      
+      // 添加空行处理
+      br + br {
+        display: block;
+        content: "";
+        margin-top: 16px;
+      }
+      
+      &::after {
+        content: '';
+        display: block;
+        height: 0;
+        clear: both;
+        visibility: hidden;
+      }
+    }
+  }
+  
+  .streaming-text-span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+    z-index: -1;
+    color: transparent;
+  }
+  
+  .typing-cursor {
+    display: inline-block;
+    width: 8px;
+    height: 18px;
+    background-color: var(--el-color-primary);
+    margin-left: 4px;
+    vertical-align: middle;
+    animation: blink 0.8s infinite;
+  }
+  
+  // Markdown内容加强样式
+  &.markdown-body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.8;
+    padding: 0 16px;
+    margin: 0;
+    
+    // 确保文本内容自动换行
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    
+    // 强制段落内容处理
+    & > p {
+      white-space: pre-wrap;
+      word-break: break-word;
+      display: block;
+      margin-block-start: 1em;
+      margin-block-end: 1em;
+      margin-inline-start: 0px;
+      margin-inline-end: 0px;
+    }
+    
+    // 标题样式优化
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 700;
+      margin-top: 36px;
+      margin-bottom: 24px;
+      line-height: 1.25;
+      position: relative;
+      padding-left: 8px;
+      clear: both; // 确保标题不会与前面的内容重叠
+      word-break: break-word; // 确保标题文字不会溢出
+      color: #176c3a !important; // 深绿色
+    }
+    
+    h1 { font-size: 2em; border-bottom: 2px solid #eaecef; padding-bottom: 0.3em; margin-top: 45px; }
+    h2 { font-size: 1.6em; border-bottom: 1.5px solid #eaecef; padding-bottom: 0.3em; margin-top: 42px; }
+    h3 { font-size: 1.3em; margin-top: 35px; }
+    h4, h5, h6 { font-size: 1.1em; margin-top: 28px; }
+    
+    h1:first-child, h2:first-child, h3:first-child, h4:first-child, h5:first-child, h6:first-child {
+      margin-top: 0;
+    }
+    
+    // 对大部分元素增加适当的下边距
+    p, blockquote, ul, ol, dl, table, pre, details {
+      margin-top: 0;
+      margin-bottom: 22px; // 增加元素间距
+      white-space: pre-wrap; // 保留格式但自动换行
+      color: #1a237e; // 深蓝色
+    }
+    
+    // 列表样式调整
+    ul, ol {
+      padding-left: 24px; // 增加缩进
+      
+      li {
+        margin-bottom: 8px; // 增加列表项之间的间距
+        white-space: normal; // 确保列表项内容自动换行
+        
+        p {
+          margin-bottom: 10px; // 列表项中段落间距略小
+          white-space: pre-wrap; // 确保段落内容自动换行
+        }
+        
+        &:last-child {
+          margin-bottom: 0;
+        }
+    }
+  }
+  
+    // 引用样式优化
+    blockquote {
+      padding: 8px 24px;
+      border-left: 4px solid var(--el-border-color);
+      background-color: var(--el-fill-color-light);
+      color: var(--el-text-color-regular);
+      border-radius: 0 4px 4px 0;
+      margin: 18px 0 24px 0;
+      
+      p {
+        margin-bottom: 14px; // 引用内段落间距略小
+        white-space: pre-wrap; // 保留格式但自动换行
+        
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+    
+    // 代码样式优化
+    pre {
+      white-space: pre; // 保留代码格式
+      overflow-x: auto; // 允许水平滚动
+      margin: 18px 0;
+      padding: 12px;
+      background-color: var(--el-fill-color-darker);
+      border-radius: 4px;
+    
+    code {
+        white-space: pre; // 保留代码格式
+        font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+        font-size: 13px;
+        line-height: 1.6;
+      }
+    }
+  }
+  
+  // 链接样式
+  a {
+    color: var(--el-color-primary);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-bottom: 1px solid transparent;
+    
+    &:hover {
+      border-bottom-color: var(--el-color-primary);
+    }
+  }
+  
+  // 列表样式
+  ul, ol {
+    padding-left: 20px;
+    margin: 12px 0 24px 0;  // 增加列表底部间距
+  }
+  
+  li {
+    margin-bottom: 8px;  // 增加列表项间距
+    line-height: 1.7; // 增加行高
+  }
+}
+
+// 美化按钮样式
+.copy-btn, .raw-btn, .expand-btn {
+  padding: 5px !important;  // 减小按钮内边距
+  font-size: 13px !important;  // 减小按钮字体
+  transition: all 0.2s ease;
+  
+  &:hover {
+    transform: translateY(-1px);  // 减小悬停效果
+  }
+}
+
+// 优化展开指示器
+.message-expand-indicator {
+  text-align: center;
+  padding: 8px 0;
+  // 修改渐变色，确保按钮更明显
+  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, var(--el-color-primary-light-9) 30%, var(--el-color-primary-light-9) 100%);
+  border-top: 1px dashed var(--el-border-color-light);
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--el-color-primary);
+  transition: all 0.2s ease;
+  margin-top: -3px;
+  border-radius: 0 0 6px 6px; // 添加底部圆角
+  
+  &:hover {
+    background-color: var(--el-color-primary-light-8);
+    color: var(--el-color-primary-dark);
+  }
+  
+  .el-icon {
+    margin-left: 3px;
+    font-size: 11px;
+    transition: transform 0.2s ease;
+  }
+  
+  &:hover .el-icon {
+    transform: translateY(1px);
+  }
+}
+
+// 深色模式适配
+html.dark .message-expand-indicator {
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, var(--el-color-primary-light-9) 30%, var(--el-color-primary-light-9) 100%);
+  border-top: 1px dashed var(--el-border-color-darker);
+  color: var(--el-color-primary-light-3);
+}
+
+// 滚动到底部按钮
+.scroll-to-bottom-btn {
+  position: absolute;
+  bottom: 16px;  // 减小底部间距
+  right: 16px;  // 减小右侧间距
+  z-index: 10;
+  transition: all 0.3s;
+  
+  .el-button {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);  // 减小阴影
+    width: 36px;  // 减小按钮大小
+    height: 36px;  // 减小按钮大小
+    border-radius: 50%;
+    
+    &:hover {
+      transform: translateY(-1px);  // 减小悬停效果
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);  // 减小悬停阴影
+    }
+  }
+}
+
+// 修改消息样式以支持展开/收起
+.message-content {
+  &.message-expanded {
+    max-height: none !important;
+    overflow: visible !important;
+  }
+  
+  &:not(.message-expanded) {
+    max-height: 400px; // 增加初始高度
+    overflow-y: auto;
+  }
+}
+
+// 确保代码块也有合适的滚动条
+pre code {
+  overflow-x: auto;
+  display: block;
+  max-width: 100%;
+  
+  &::-webkit-scrollbar {
+    height: 6px;  // 减小滚动条高度
+    background-color: rgba(0, 0, 0, 0.05);
+    display: block;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;  // 减小滚动条圆角
+    
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+  }
+}
+
+/* 深色模式下的滚动条样式 */
+html.dark {
+  .message-content,
+  pre code {
+    &::-webkit-scrollbar {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(255, 255, 255, 0.2);
+      
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.3);
+      }
+    }
+    
+    &::-webkit-scrollbar-track {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+  }
+}
+
+/* 动态生成窗口 */
+.dynamic-window {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, padding 0.3s ease;
+  background-color: var(--el-fill-color-light);
+  border-bottom: 0px solid var(--el-border-color-light);
+  
+  &.expanded {
+    max-height: 300px;
+    padding: 12px;
+    border-bottom-width: 1px;
+  }
+  
+  .thinking-visualization {
+    margin-bottom: 12px;
+    
+    .thinking-progress {
+      height: 6px;
+      background-color: var(--el-fill-color-darker);
+      border-radius: 3px;
+      margin-bottom: 12px;
+      overflow: hidden;
+      
+      .thinking-bar {
+        height: 100%;
+        background-color: var(--chat-accent-light);
+        border-radius: 3px;
+        transition: width 0.3s ease;
+      }
+    }
+    
+    .thinking-steps {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 5px;
+      
+      .step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        opacity: 0.5;
+        transition: all 0.3s ease;
+        
+        &.active {
+          opacity: 1;
+          transform: translateY(-3px);
+          
+          .step-icon {
+            background-color: rgba(var(--el-color-primary-rgb), 0.1);
+            border-color: var(--chat-accent-light);
+            transform: scale(1.1);
+          }
+        }
+        
+        .step-icon {
+          width: 28px;
+          height: 28px;
+          border-radius: 50%;
+          background-color: var(--el-fill-color);
+          border: 1px solid var(--el-border-color);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 5px;
+          transition: all 0.3s ease;
+        }
+        
+        .step-name {
+          font-size: 12px;
+          color: var(--el-text-color-secondary);
+        }
+      }
+    }
+  }
+  
+  .stream-details {
+    background-color: var(--el-fill-color);
+    border-radius: 4px;
+    border: 1px solid var(--el-border-color-light);
+    
+    .stream-detail-header {
+      padding: 8px 12px;
+      font-size: 13px;
+      color: var(--el-text-color-primary);
+      border-bottom: 1px solid var(--el-border-color-light);
+      background-color: var(--el-bg-color);
+    }
+    
+    .stream-content-preview {
+      padding: 10px;
+      max-height: 120px;
+      overflow-y: auto;
+      
+      .stream-tokens {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        
+        .token {
+          padding: 2px 4px;  // 减小token内边距
+          margin: 2px;  // 减小token间距
+          background-color: var(--el-bg-color);
+          border-radius: 4px;
+          font-size: 11px;  // 减小token字体
+          color: var(--el-text-color-regular);
+          border: 1px solid var(--el-border-color-light);
+          
+          &.token-flash {
+            animation: token-pulse 1s infinite;
+          }
+        }
+      }
+    }
+  }
+}
+
+// 思考内容样式
+.thinking-content {
+  margin-bottom: 12px;
+  border-radius: 6px;
+  background-color: rgba(var(--el-color-warning-rgb), 0.1);
+  border: 1px solid rgba(var(--el-color-warning-rgb), 0.15);
+  overflow: hidden;
+  font-size: 14px;
+  
+  .thinking-header {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: var(--el-color-warning-darker);
+    background-color: rgba(var(--el-color-warning-rgb), 0.06);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    
+    &:hover {
+      background-color: rgba(var(--el-color-warning-rgb), 0.12);
+    }
+    
+    span {
+      margin-left: 6px;
+      font-weight: 500;
+      
+      .generation-time {
+        font-size: 12px;
+        color: var(--el-text-color-secondary);
+        margin-left: 10px;
+        font-weight: normal;
+        font-style: italic;
+        padding: 2px 6px;
+        border-radius: 3px;
+        background-color: rgba(var(--el-color-success-rgb), 0.1);
+      }
+    }
+  }
+  
+  .thinking-body {
+    padding: 14px 16px;
+    overflow: hidden;
+    line-height: 1.6;
+    font-size: 13.5px;
+    opacity: 1;
+    max-height: 1000px; // 足够大的高度以容纳内容
+    transition: max-height 0.5s cubic-bezier(0.25, 0.1, 0.25, 1),
+                padding 0.4s cubic-bezier(0.25, 0.1, 0.25, 1),
+                opacity 0.4s cubic-bezier(0.25, 0.1, 0.25, 1); // 添加缓动函数使动画更平滑
+    
+    &.collapsed {
+      max-height: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+      opacity: 0;
+    }
+    
+    // 优化思考内容中的段落和列表间距
+    p {
+      margin: 0 0 16px 0;
+      white-space: pre-wrap; // 确保思考内容中的段落也能够正确换行
+      word-break: break-word;
+      
+      &:last-child {
+        margin-bottom: 0;
+    }
+    }
+    
+    ul, ol {
+      margin: 14px 0;
+      padding-left: 20px;
+      
+      li {
+        margin-bottom: 6px;
+        white-space: pre-wrap; // 确保列表项中的文本也能够正确换行
+        word-break: break-word;
+      }
+    }
+    
+    // 减少思考内容中的代码块样式，使其更紧凑
+    pre {
+      margin: 12px 0;
+      padding: 10px;
+      background-color: var(--el-fill-color-light);
+      border-radius: 4px;
+      overflow-x: auto;
+      font-size: 12.5px;
+    }
+  }
+}
+
+.raw-content {
+  background-color: var(--el-color-info-lighter);
+  padding: 10px 14px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  
+  pre {
+    margin: 0;
+    font-family: monospace;
+    font-size: 13px;
+    line-height: 1.4;
+    white-space: pre-wrap;
+    color: var(--el-text-color-primary);
+    overflow-x: auto;
+  }
+  
+  code {
+    white-space: pre;
+    overflow-x: auto;
+    display: block;
+  }
+}
+
+.placeholder-text {
+  color: var(--el-text-color-secondary);
+  opacity: 0.7;
+}
+
+// 动画关键帧
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes pulse {
+  0%, 100% { 
+    transform: scale(0.8); 
+    opacity: 0.7; 
+  }
+  50% { 
+    transform: scale(1.2); 
+    opacity: 1; 
+  }
+}
+
+@keyframes token-pulse {
+  0%, 100% { 
+    background-color: var(--el-bg-color);
+    transform: scale(1);
+  }
+  50% { 
+    background-color: rgba(var(--el-color-primary-rgb), 0.1);
+    transform: scale(1.05);
+  }
+}
+
+// 深色模式适配
+:deep(.dark) {
+  .message {
+    background: linear-gradient(135deg, #23232a 90%, #18181c 100%);
+    box-shadow: 0 3px 16px 0 rgba(0,0,0,0.18), 0 1px 3px 0 rgba(0,0,0,0.08);  // 减小阴影
+  }
+  .message-content {
+    color: #e8e8e8;
+    &.markdown-body {
+      p, ul, ol, li { color: #e8e8e8; }
+      blockquote {
+        background: linear-gradient(90deg, #23232a 80%, #18181c 100%);
+        border-left: 4px solid var(--el-color-primary-light-5);  // 减小左侧边框宽度
+        color: #b0b0b0;
+      }
+      pre {
+        background: linear-gradient(90deg, #18181c 80%, #23232a 100%);
+        border: 1px solid #333;  // 减小边框宽度
+        color: #e8e8e8;
+      }
+      h1, h2, h3, h4, h5, h6 { color: var(--el-color-primary); }
+      h1:before, h2:before, h3:before {
+        background: linear-gradient(180deg, var(--el-color-primary) 60%, #23232a 100%);
+      }
+      hr {
+        border-top: 1.5px solid #333;  // 减小分割线厚度
+        box-shadow: 0 1px 6px 0 rgba(0,0,0,0.15);  // 减小阴影
+      }
+    }
+  }
+}
+
+// Styling for tables rendered from Markdown
+:deep(.md-table) {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1em 0;
+  font-size: 0.9em;
+
+  th, td {
+    border: 1px solid var(--el-border-color-lighter);
+    padding: 8px 12px;
+    text-align: left;
+  }
+
+  th {
+    background-color: var(--el-fill-color-lighter);
+    font-weight: 600;
+  }
+
+  // Alternate row styling for better readability
+  tbody tr:nth-child(odd) {
+    background-color: var(--el-bg-color-page);
+  }
+  
+  // Responsive wrapper styling (if you keep the .table-responsive div)
+  // If .table-responsive is applied by renderMarkdown:
+  // .table-responsive {
+  //   overflow-x: auto;
+  //   width: 100%;
+  //   margin-bottom: 1em;
+  // }
+}
+
+.thinking-body.collapsed {
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  opacity: 0;
+}
+
+// 彩色强调样式
+.markdown-body {
+  h1, h2, h3, h4, h5, h6 {
+    color: #176c3a !important; // 深绿色
+  }
+  p, ul, ol, li, blockquote {
+    color: #1a237e; // 深蓝色
+  }
+}
+.conclusion {
+  color: #8e24aa !important; // 紫色
+  font-weight: bold;
+}

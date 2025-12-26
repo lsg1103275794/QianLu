@@ -1,0 +1,18 @@
+{
+  "type": "object",
+  "properties": {
+    "instruction": {
+      "type": "string",
+      "description": "任务指令，描述模型需要做什么。对于我们的场景，这通常是固定的，比如“根据以下文章内容，进行写作分析”。"
+    },
+    "input": {
+      "type": "string",
+      "description": "任务的输入，这里是原始文章（或文章片段）。"
+    },
+    "output": {
+      "type": "string",
+      "description": "模型需要生成的输出，这里是 LLM 分析得到的 JSON 字符串（包含结构、框架、风格）。"
+    }
+  },
+  "required": ["instruction", "input", "output"]
+}

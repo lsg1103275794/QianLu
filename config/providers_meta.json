@@ -1,0 +1,175 @@
+[
+  {
+    "standard_name": "ollama_local",
+    "display_name": "Ollama Local",
+    "handler_module_path": "src.providers.handlers.ollama_local",
+    "handler_class_name": "OllamaLocalHandler",
+    "aliases": [
+      "ollama",
+      "ollamalocal"
+    ],
+    "env_prefix": "OLLAMA_",
+    "config_path": "config/providers/ollama_local.json"
+  },
+  {
+    "standard_name": "ollama_report_handler",
+    "display_name": "Ollama Report Handler",
+    "handler_module_path": "src.providers.handlers.ollama_report_handler",
+    "handler_class_name": "OllamaReportHandler",
+    "aliases": [
+      "ollamareport",
+      "ollama_report"
+    ],
+    "env_prefix": "OLLAMA_",
+    "config_path": "config/providers/ollama_local.json"
+  },
+  {
+    "standard_name": "deepseek_ai",
+    "display_name": "Deepseek AI",
+    "handler_module_path": "src.providers.handlers.deepseek_ai",
+    "handler_class_name": "DeepseekAIHandler",
+    "aliases": [
+      "deepseek",
+      "deepseek-ai",
+      "deepseek-api",
+      "deepseek_api"
+    ],
+    "env_prefix": "DEEPSEEK_"
+  },
+  {
+    "standard_name": "silicon_flow",
+    "display_name": "Silicon Flow",
+    "handler_module_path": "src.providers.handlers.silicon_flow",
+    "handler_class_name": "SiliconFlowHandler",
+    "aliases": [
+      "silicon",
+      "siliconflow",
+      "silicon-flow"
+    ],
+    "env_prefix": "SILICONFLOW_"
+  },
+  {
+    "standard_name": "volc_engine",
+    "display_name": "Volc Engine",
+    "handler_module_path": "src.providers.handlers.volc_engine",
+    "handler_class_name": "VolcEngineHandler",
+    "aliases": [
+      "volcengine",
+      "volc-engine",
+      "volc"
+    ],
+    "env_prefix": "VOLC_"
+  },
+  {
+    "standard_name": "google_gemini",
+    "display_name": "Google Gemini",
+    "handler_module_path": "src.providers.handlers.google_gemini",
+    "handler_class_name": "GoogleGeminiHandler",
+    "aliases": [
+      "google",
+      "gemini",
+      "googlegemini",
+      "google-gemini"
+    ],
+    "env_prefix": "GOOGLE_"
+  },
+  {
+    "standard_name": "zhipu_ai",
+    "display_name": "Zhipu AI",
+    "handler_module_path": "src.providers.handlers.zhipu_ai",
+    "handler_class_name": "ZhipuAIHandler",
+    "aliases": [
+      "zhipu",
+      "zhipuai",
+      "zhipu-ai"
+    ],
+    "env_prefix": "ZHIPU_"
+  },
+  {
+    "standard_name": "groq_api",
+    "display_name": "Groq API",
+    "handler_module_path": "src.providers.handlers.groq_api",
+    "handler_class_name": "GroqApiHandler",
+    "aliases": [
+      "groq",
+      "groqapi"
+    ],
+    "env_prefix": "GROQ_"
+  },
+  {
+    "standard_name": "together_ai",
+    "display_name": "Together AI",
+    "handler_module_path": "src.providers.handlers.together_ai",
+    "handler_class_name": "TogetherAiHandler",
+    "aliases": [
+      "together",
+      "togetherai"
+    ],
+    "env_prefix": "TOGETHER_"
+  },
+  {
+    "standard_name": "mistral_ai",
+    "display_name": "Mistral AI",
+    "handler_module_path": "src.providers.handlers.mistral_ai",
+    "handler_class_name": "MistralAiHandler",
+    "aliases": [
+      "mistral",
+      "mistralai"
+    ],
+    "env_prefix": "MISTRAL_"
+  },
+  {
+    "standard_name": "perplexity_ai",
+    "display_name": "Perplexity AI",
+    "handler_module_path": "src.providers.handlers.perplexity_ai",
+    "handler_class_name": "PerplexityAiHandler",
+    "aliases": [
+      "perplexity",
+      "perplexityai"
+    ],
+    "env_prefix": "PERPLEXITY_"
+  },
+  {
+    "standard_name": "anyscale_endpoints",
+    "display_name": "Anyscale Endpoints",
+    "handler_module_path": "src.providers.handlers.anyscale_endpoints",
+    "handler_class_name": "AnyscaleEndpointsHandler",
+    "aliases": [
+      "anyscale",
+      "anyscaleendpoints"
+    ],
+    "env_prefix": "ANYSCALE_"
+  },
+  {
+    "standard_name": "cohere_compatible",
+    "display_name": "Cohere Compatible",
+    "handler_module_path": "src.providers.handlers.cohere_compatible",
+    "handler_class_name": "CohereCompatibleHandler",
+    "aliases": [
+      "cohere"
+    ],
+    "env_prefix": "COHERE_"
+  },
+  {
+    "standard_name": "open_router",
+    "display_name": "open_router",
+    "handler_module_path": "src.providers.handlers.open_router",
+    "handler_class_name": "OpenRouterHandler",
+    "aliases": [
+      "open_router"
+    ],
+    "env_prefix": "OPEN_ROUTER_",
+    "config_path": "config/providers/open_router.json"
+  },
+  {
+    "standard_name": "Free_Qwen3",
+    "display_name": "Qwen3-30B-A3B",
+    "env_prefix": "FREE_QWEN3_",
+    "handler_module_path": "src.providers.handlers.Free_Qwen3",
+    "handler_class_name": "FreeQwen3Handler",
+    "aliases": [
+      "Free_Qwen3"
+    ],
+    "config_path": "config/providers/Free_Qwen3.json"
+  }
+]
