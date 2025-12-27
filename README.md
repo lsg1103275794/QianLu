@@ -1,4 +1,4 @@
-# 千虑 (QianLu)
+# 千虑 (QianLv)
 
 <div align="center">
 
@@ -37,7 +37,7 @@
 
 ## 项目简介
 
-千虑 (QianLu) 是一个功能强大的智能文本处理系统，利用大语言模型（LLM）的能力，为用户提供专业的文本分析、文学创作分析、风格迁移和智能研报生成服务。
+千虑 (QianLv) 是一个功能强大的智能文本处理系统，利用大语言模型（LLM）的能力，为用户提供专业的文本分析、文学创作分析、风格迁移和智能研报生成服务。
 
 ### 为什么选择千虑？
 
@@ -45,7 +45,7 @@
 - 📚 **专业文学分析**：基于V2多维度模板，提供人物、情节、主题、语言等深度分析
 - 🤖 **多AI服务商支持**：集成14+主流AI服务商，灵活切换，降低依赖风险
 - 📊 **智能研报生成**：LLM驱动的自动化研报生成，支持实时热点追踪
-- 🎨 **风格迁移**：智能文本风格转换，满足不同场景需求
+- 🎨 **风格迁移**：智能文本风格转换，满足不同场景需求（文章仿写）
 - 💬 **交互式测试**：内置聊天界面，方便测试和调试AI模型
 - 🔄 **实时配置**：支持热更新，修改配置无需重启服务
 
@@ -155,7 +155,7 @@
 
 ```bash
 git clone <repository-url>
-cd QianLu
+cd QianLv
 ```
 
 #### 2. 安装后端依赖
@@ -387,7 +387,7 @@ GOOGLE_MAX_TOKENS='2048'
 ### 项目结构
 
 ```
-QianLu/
+QianLv/
 ├── backend_main.py          # 后端入口
 ├── main.py                  # 简化入口
 ├── frontend/                # 前端代码
@@ -405,9 +405,9 @@ QianLu/
 │   └── utils/              # 工具函数
 ├── config/                  # 配置文件
 ├── data/                    # 数据目录
-│   ├── QianLu_data.db   # 数据库
+│   ├── QianLv_data.db   # 数据库
 │   └── uploads/            # 上传文件
-└── doc/                     # 文档
+├── doc/                     # 文档
 ```
 
 ### 开发规范
@@ -573,8 +573,8 @@ A: 检查：1) API密钥是否正确 2) 网络连接是否正常 3) Serper API�
 
 - **项目维护者**：lsg1103275794
 - **邮箱**：lsg1103275794@qq.com
-- **问题反馈**：[GitHub Issues](https://github.com/lsg1103275794/QianLu/issues)
-- **讨论交流**：[GitHub Discussions](https://github.com/lsg1103275794/QianLu/discussions)
+- **问题反馈**：[GitHub Issues](https://github.com/lsg1103275794/QianLv/issues)
+- **讨论交流**：[GitHub Discussions](https://github.com/lsg1103275794/QianLv/discussions)
 
 ---
 
@@ -586,8 +586,8 @@ A: 检查：1) API密钥是否正确 2) 网络连接是否正常 3) Serper API�
 
 <div align="center">
 
-**[⬆ 回到顶部](#千虑-QianLu)**
+**[⬆ 回到顶部](#千虑-QianLv)**
 
-Made with ❤️ by QianLu Team
+Made with ❤️ by QianLv Team
 
 </div>
