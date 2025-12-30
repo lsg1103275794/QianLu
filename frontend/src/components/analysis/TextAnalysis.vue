@@ -1036,6 +1036,10 @@ const submitAnalysis = async () => {
       result.value = localResult;
       activeResultSections.value = form.options;
       
+      // 完成分析，重置状态
+      analyzing.value = false;
+      ElMessage.success('本地分析完成！');
+      
     } else if (analysisType.value === 'deep') {
       // 深度文学分析 (需要API)
       analyzingMessage.value = '正在提交深度文本分析请求...';

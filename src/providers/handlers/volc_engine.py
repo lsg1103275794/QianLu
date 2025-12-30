@@ -33,8 +33,17 @@ class VolcEngineHandler(BaseAPIHandler):
             'max_tokens': config.get('VOLC_MAX_TOKENS', 2000), 
         }
         
-        # Timeout from .env or default
-        self.request_timeout = config.get('VOLC_REQUEST_TIMEOUT', 60) 
+        # Timeout from .env or default - 优先使用 VOLC_ENGINE_REQUEST_TIMEOUT，回退到 VOLC_REQUEST_TIMEOUT
+        engine_timeout = config.get('VOLC_ENGINE_REQUEST_TIMEOUT')
+        request_timeout = config.get('VOLC_REQUEST_TIMEOUT', 60)
+        
+        # 确保超时值是整数类型
+        if engine_timeout is not None:
+            self.request_timeout = int(engine_timeout) if not isinstance(engine_timeout, int) else engine_timeout
+        else:
+            self.request_timeout = int(request_timeout) if not isinstance(request_timeout, int) else request_timeout
+        
+        logger.info(f"Volc Engine Handler timeout set to: {self.request_timeout}s") 
 
         # Validate required fields (API Key and Endpoint are essential now)
         if not self.api_key:
@@ -334,7 +343,7 @@ class VolcEngineHandler(BaseAPIHandler):
                     request_url,
                     headers=self._get_headers(),
                     json=request_payload,
-                    timeout=aiohttp.ClientTimeout(total=self.request_timeout * 5, connect=10)
+                    timeout=aiohttp.ClientTimeout(total=self.request_timeout, connect=30)
                 ) as response:
                     
                     if response.status != 200:
@@ -365,11 +374,11 @@ class VolcEngineHandler(BaseAPIHandler):
                                     logger.warning(f"Failed to decode Volc stream chunk JSON: {line_data}")
 
         except asyncio.TimeoutError:
-             logger.error(f"Volc Engine HTTP stream timed out. URL: {request_url}")
+             logger.error(f"Volc Engine HTTP stream timed out after {self.request_timeout}s. URL: {request_url}")
              raise APITimeoutError(
-                 message="Stream request timed out",
+                 message=f"Stream request timed out after {self.request_timeout}s",
                  provider_name=self.provider_name,
-                 timeout_seconds=self.request_timeout*5
+                 timeout_seconds=self.request_timeout
              )
         except aiohttp.ClientError as e:
              logger.error(f"Volc Engine HTTP stream connection error: {e} URL: {request_url}")

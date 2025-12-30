@@ -248,11 +248,19 @@ const formatTimestamp = (timestamp) => {
 
 // Map result type to name and tag type
 const resultTypeMap = {
+  // 新格式（后端直接保存的type值）
+  'text': { name: '文本分析', tag: 'primary' },
+  'literature': { name: '文学分析', tag: 'success' },
+  'style': { name: '风格迁移', tag: 'warning' },
+  'excel': { name: 'Excel分析', tag: 'info' },
+  // 旧格式（向后兼容）
   'text_analysis': { name: '文本分析', tag: 'primary' },
   'literature_analysis': { name: '文学分析', tag: 'success' },
   'style_transfer': { name: '风格迁移', tag: 'warning' },
   'excel_analysis': { name: 'Excel分析', tag: 'info' },
-  // Add other types as needed
+  // 编辑后的类型
+  'text_edited': { name: '文本分析(已编辑)', tag: 'primary' },
+  'literature_edited': { name: '文学分析(已编辑)', tag: 'success' },
 }
 
 const getResultTypeName = (type) => {
@@ -324,37 +332,116 @@ const handleViewClick = async (row) => {
   try {
     const response = await api.getResultDetails(row.result_id);
     currentItemData.value = response.data; 
-    // Pre-populate editedContent (Check both nested paths first)
+    
+    // 优化的文本提取逻辑
     let extractedText = '';
     if (currentItemData.value) {
         console.log("[ViewClick] Attempting to extract text from:", currentItemData.value);
-        // Try specific nested paths first (sync or async)
+        
+        // 1. 优先检查深度嵌套路径（文笔分析/深度分析报告）
         if (currentItemData.value.result) {
-            if (typeof currentItemData.value.result.analysis_report === 'string') {
-                extractedText = currentItemData.value.result.analysis_report;
-                console.log("[ViewClick] Found text in result.analysis_report");
-            } else if (typeof currentItemData.value.result.deep_analysis_report === 'string') {
-                extractedText = currentItemData.value.result.deep_analysis_report;
-                console.log("[ViewClick] Found text in result.deep_analysis_report");
+            if (typeof currentItemData.value.result === 'string') {
+                // 如果result本身就是字符串（文笔分析的情况）
+                extractedText = currentItemData.value.result;
+                console.log("[ViewClick] Found text in result (string)");
+            } else if (typeof currentItemData.value.result === 'object') {
+                // 如果result是对象（文本分析的情况）
+                // 尝试提取深度分析报告
+                if (typeof currentItemData.value.result.deep_analysis_report === 'string') {
+                    extractedText = currentItemData.value.result.deep_analysis_report;
+                    console.log("[ViewClick] Found text in result.deep_analysis_report");
+                } else if (typeof currentItemData.value.result.analysis_report === 'string') {
+                    extractedText = currentItemData.value.result.analysis_report;
+                    console.log("[ViewClick] Found text in result.analysis_report");
+                } else {
+                    // 如果没有报告字段，尝试将整个result对象格式化为可读文本
+                    try {
+                        const resultObj = currentItemData.value.result;
+                        const sections = [];
+                        
+                        // 提取各个分析维度的内容
+                        if (resultObj.sentiment) {
+                            sections.push(`## 情感分析\n${JSON.stringify(resultObj.sentiment, null, 2)}`);
+                        }
+                        if (resultObj.readability) {
+                            sections.push(`## 可读性分析\n${JSON.stringify(resultObj.readability, null, 2)}`);
+                        }
+                        if (resultObj.text_stats) {
+                            sections.push(`## 文本统计\n${JSON.stringify(resultObj.text_stats, null, 2)}`);
+                        }
+                        if (resultObj.word_frequency) {
+                            sections.push(`## 词频分析\n${JSON.stringify(resultObj.word_frequency, null, 2)}`);
+                        }
+                        if (resultObj.sentence_pattern) {
+                            sections.push(`## 句式分析\n${JSON.stringify(resultObj.sentence_pattern, null, 2)}`);
+                        }
+                        if (resultObj.keyword_extraction) {
+                            sections.push(`## 关键词提取\n${JSON.stringify(resultObj.keyword_extraction, null, 2)}`);
+                        }
+                        if (resultObj.language_features) {
+                            sections.push(`## 语言特征\n${JSON.stringify(resultObj.language_features, null, 2)}`);
+                        }
+                        
+                        if (sections.length > 0) {
+                            extractedText = sections.join('\n\n');
+                            console.log("[ViewClick] Formatted result object into readable text");
+                        } else {
+                            // 如果没有识别的字段，直接JSON化
+                            extractedText = JSON.stringify(resultObj, null, 2);
+                            console.log("[ViewClick] Stringified entire result object");
+                        }
+                    } catch (e) {
+                        console.error("[ViewClick] Error formatting result object:", e);
+                        extractedText = JSON.stringify(currentItemData.value.result, null, 2);
+                    }
+                }
             }
         }
-        // Fallback chain for top-level fields if nested paths fail
-        if (!extractedText) { // Only check fallbacks if nested paths didn't yield text
-            if (typeof currentItemData.value.result === 'string') { extractedText = currentItemData.value.result; console.log("[ViewClick] Found text in result (string)"); }
-            else if (typeof currentItemData.value.content === 'string') { extractedText = currentItemData.value.content; console.log("[ViewClick] Found text in content"); }
-            else if (typeof currentItemData.value.text === 'string') { extractedText = currentItemData.value.text; console.log("[ViewClick] Found text in text"); }
-            else if (typeof currentItemData.value.analysis_result === 'string') { extractedText = currentItemData.value.analysis_result; console.log("[ViewClick] Found text in analysis_result"); }
-            else if (typeof currentItemData.value.output === 'string') { extractedText = currentItemData.value.output; console.log("[ViewClick] Found text in output"); }
-            else if (typeof currentItemData.value.output_text === 'string') { extractedText = currentItemData.value.output_text; console.log("[ViewClick] Found text in output_text"); }
-            else if (typeof currentItemData.value.summary === 'string') { extractedText = currentItemData.value.summary; console.log("[ViewClick] Found text in summary"); }
-            else if (typeof currentItemData.value.generated_text === 'string') { extractedText = currentItemData.value.generated_text; console.log("[ViewClick] Found text in generated_text"); }
+        
+        // 2. 回退到顶层字段（如果上面没有提取到内容）
+        if (!extractedText) {
+            if (typeof currentItemData.value.content === 'string') { 
+                extractedText = currentItemData.value.content; 
+                console.log("[ViewClick] Found text in content"); 
+            }
+            else if (typeof currentItemData.value.text === 'string') { 
+                extractedText = currentItemData.value.text; 
+                console.log("[ViewClick] Found text in text"); 
+            }
+            else if (typeof currentItemData.value.analysis_result === 'string') { 
+                extractedText = currentItemData.value.analysis_result; 
+                console.log("[ViewClick] Found text in analysis_result"); 
+            }
+            else if (typeof currentItemData.value.output === 'string') { 
+                extractedText = currentItemData.value.output; 
+                console.log("[ViewClick] Found text in output"); 
+            }
+            else if (typeof currentItemData.value.output_text === 'string') { 
+                extractedText = currentItemData.value.output_text; 
+                console.log("[ViewClick] Found text in output_text"); 
+            }
+            else if (typeof currentItemData.value.summary === 'string') { 
+                extractedText = currentItemData.value.summary; 
+                console.log("[ViewClick] Found text in summary"); 
+            }
+            else if (typeof currentItemData.value.generated_text === 'string') { 
+                extractedText = currentItemData.value.generated_text; 
+                console.log("[ViewClick] Found text in generated_text"); 
+            }
         }
 
         editedContent.value = extractedText;
-        // Show warning only if extraction failed after trying all paths
+        
+        // 只有在完全无法提取时才显示警告
         if (!editedContent.value) {
             console.warn("[ViewClick] Could not automatically extract text content for editing.");
-            ElMessage.warning("未能自动提取文本内容进行编辑，请在下方JSON中手动修改。");
+            ElMessage.warning("未能自动提取文本内容进行编辑，将显示完整JSON数据。");
+            // 最后的回退：显示整个JSON
+            try {
+                editedContent.value = JSON.stringify(currentItemData.value, null, 2);
+            } catch (e) {
+                editedContent.value = '无法序列化数据';
+            }
         }
     }
   } catch (error) {
@@ -367,28 +454,60 @@ const handleViewClick = async (row) => {
 };
 
 const switchToEditMode = () => {
-  // Attempt to extract the primary text content for editing
-  // This logic might need refinement based on actual data structures
+  // 使用已经在handleViewClick中提取好的内容
+  // 如果editedContent已经有内容，直接使用
+  if (editedContent.value) {
+    isEditing.value = true;
+    return;
+  }
+  
+  // 如果没有内容，尝试重新提取
   let textToEdit = '';
   if (currentItemData.value) {
-      textToEdit = currentItemData.value.result || 
-                   currentItemData.value.content || 
-                   currentItemData.value.text || 
-                   currentItemData.value.analysis_result || 
-                   currentItemData.value.output || 
-                   currentItemData.value.output_text || 
-                   currentItemData.value.summary || 
-                   currentItemData.value.generated_text || 
-                   (typeof currentItemData.value === 'string' ? currentItemData.value : ''); // Fallback if top-level is string
+      // 优先尝试从result字段提取
+      if (currentItemData.value.result) {
+          if (typeof currentItemData.value.result === 'string') {
+              textToEdit = currentItemData.value.result;
+          } else if (typeof currentItemData.value.result === 'object') {
+              // 尝试提取报告字段
+              textToEdit = currentItemData.value.result.deep_analysis_report || 
+                          currentItemData.value.result.analysis_report || 
+                          '';
+              
+              // 如果没有报告字段，格式化整个对象
+              if (!textToEdit) {
+                  try {
+                      textToEdit = JSON.stringify(currentItemData.value.result, null, 2);
+                  } catch (e) {
+                      textToEdit = '无法序列化对象';
+                  }
+              }
+          }
+      }
       
-      // If still empty, try stringifying the whole object
+      // 回退到其他字段
+      if (!textToEdit) {
+          textToEdit = currentItemData.value.content || 
+                       currentItemData.value.text || 
+                       currentItemData.value.analysis_result || 
+                       currentItemData.value.output || 
+                       currentItemData.value.output_text || 
+                       currentItemData.value.summary || 
+                       currentItemData.value.generated_text || 
+                       (typeof currentItemData.value === 'string' ? currentItemData.value : '');
+      }
+      
+      // 最后的回退：序列化整个对象
       if (!textToEdit && typeof currentItemData.value === 'object') {
           try {
               textToEdit = JSON.stringify(currentItemData.value, null, 2);
               ElMessage.info('未找到主要文本字段，将编辑整个JSON内容。');
-          } catch (e) { textToEdit = '无法序列化对象进行编辑'; }
+          } catch (e) { 
+              textToEdit = '无法序列化对象进行编辑'; 
+          }
       }
   }
+  
   editedContent.value = textToEdit; 
   isEditing.value = true;
 };
